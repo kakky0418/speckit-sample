@@ -1,9 +1,30 @@
 # Feature Specification: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`  
-**Created**: [DATE]  
-**Status**: Draft  
+**Feature Branch**: `[###-feature-name]`
+**Created**: [DATE]
+**Status**: Draft
 **Input**: User description: "$ARGUMENTS"
+
+## Intent（インテント）*(mandatory)*
+
+<!--
+  ACTION REQUIRED: この機能の「目的地」を明確に定義してください。
+  AI-DLC のインセプションフェーズにおいて、インテントはプロジェクトの方向性を示す重要な要素です。
+-->
+
+### 目的
+[この機能が解決する問題や達成したいゴールを明確に記述]
+
+### 背景
+[なぜこの機能が必要なのか、どのような課題があるのかを説明]
+
+### 期待される成果
+- [成果 1: ユーザーにとっての価値]
+- [成果 2: ビジネスにとっての価値]
+- [成果 3: 技術的な改善点]
+
+### 成功した未来の状態
+[この機能がリリースされ、成功した後の状態を具体的に記述。「〜できるようになった」「〜が改善された」など]
 
 ## User Scenarios & Testing *(mandatory)*
 

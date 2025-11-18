@@ -1,0 +1,16 @@
+// lib/constants.ts
+
+export const NISA_LIMITS = {
+  TSUMITATE_ANNUAL: 1_200_000,
+  GROWTH_ANNUAL: 2_400_000,
+  LIFETIME: 18_000_000,
+} as const;
+
+export const INPUT_CONSTRAINTS = {
+  MIN_MONTHLY_AMOUNT: 100,
+  MAX_YEARS: 40,
+  MIN_YEARS: 1,
+  MIN_ANNUAL_RATE: -10.0,
+  MAX_ANNUAL_RATE: 20.0,
+  DEFAULT_ANNUAL_RATE: 5.0,
+} as const;
