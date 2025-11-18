@@ -1,4 +1,4 @@
-# back_to_the_future Development Guidelines
+# speckit-sample Development Guidelines
 
 Auto-generated from all feature plans. Last updated: 2025-11-17
 

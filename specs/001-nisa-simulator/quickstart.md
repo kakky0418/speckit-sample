@@ -48,7 +48,7 @@ bun --version
 
 ```bash
 # プロジェクトディレクトリに移動
-cd /Users/shoichi.kakizaki/develop/back_to_the_future
+cd /Users/shoichi.kakizaki/develop/speckit-sample
 
 # Next.js プロジェクトの作成（bun を使用）
 bunx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias "@/*"
@@ -90,7 +90,7 @@ mkdir -p __tests__/e2e
 最終的なディレクトリ構造：
 
 ```
-back_to_the_future/
+speckit-sample/
 ├── app/
 │   ├── layout.tsx
 │   ├── page.tsx

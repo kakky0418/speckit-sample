@@ -1,4 +1,4 @@
-# back_to_the_future
+# speckit-sample
 
 ## Intent（インテント）
 
@@ -30,7 +30,7 @@ NISA や iDeCo などの非課税制度は投資初心者にとって有益だ�
 ## プロジェクト構造
 
 ```text
-back_to_the_future/
+speckit-sample/
 ├── .specify/              # speckit のコア設定・テンプレート
 │   ├── memory/
 │   │   └── constitution.md  # プロジェクト開発原則
@@ -126,7 +126,7 @@ bun --version
 ```bash
 # リポジトリのクローン
 git clone <repository-url>
-cd back_to_the_future
+cd speckit-sample
 
 # 依存パッケージのインストール
 bun install
@@ -185,7 +185,7 @@ bun test --watch
 cat .specify/memory/constitution.md
 
 # 新機能の作成（例）
-bash .specify/scripts/bash/create-new-feature.sh "ユーザー認証機能"
+bash .specify/scripts/bash/create-new-feature.sh "新機能の説明"
 ```
 
 ---

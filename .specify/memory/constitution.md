@@ -14,7 +14,7 @@ Templates Status:
 Follow-up TODOs: None
 -->
 
-# back_to_the_future Constitution
+# speckit-sample Constitution
 
 ## Core Principles
 
