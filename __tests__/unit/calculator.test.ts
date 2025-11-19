@@ -1,5 +1,11 @@
 import { describe, test, expect } from 'bun:test';
-import { calculateSimulation, generateChartData, calculateMultipleScenarios } from '@/lib/calculator';
+import {
+  calculateSimulation,
+  generateChartData,
+  calculateMultipleScenarios,
+  calculateTaxComparison,
+  calculateYearlyTaxComparison
+} from '@/lib/calculator';
 import type { InvestmentPlan } from '@/lib/types';
 
 describe('Calculator', () => {
@@ -151,6 +157,205 @@ describe('Calculator', () => {
       scenarios.forEach((scenario) => {
         expect(scenario.result.totalPrincipal).toBe(principal);
       });
+    });
+  });
+
+  describe('calculateTaxComparison', () => {
+    test('基本的な税金比較計算が正しく行われること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 30000,
+        years: 20,
+        annualRate: 5,
+      };
+
+      const result = calculateTaxComparison(plan);
+
+      // 元本合計
+      expect(result.principal).toBe(7200000);
+
+      // 運用益（税引前）
+      expect(result.profitBeforeTax).toBeGreaterThan(5000000);
+
+      // NISA: 税金0円
+      expect(result.nisa.tax).toBe(0);
+      expect(result.nisa.netAssets).toBe(result.nisa.totalAssets);
+
+      // 特定口座: 税金あり（運用益 × 20.315%）
+      expect(result.tokutei.tax).toBeGreaterThan(0);
+      const expectedTax = Math.floor(result.profitBeforeTax * 0.20315);
+      expect(result.tokutei.tax).toBe(expectedTax);
+
+      // 手取り総資産が妥当な範囲内にあることを確認
+      // 注: Math.floor の順序により、±1円程度の誤差が生じる可能性がある
+      const approximateNetAssets = result.tokutei.totalAssetsBeforeTax - result.tokutei.tax;
+      expect(result.tokutei.netAssets).toBeGreaterThanOrEqual(approximateNetAssets - 1);
+      expect(result.tokutei.netAssets).toBeLessThanOrEqual(approximateNetAssets);
+
+      // 節税額 = NISA の手取り - 特定口座の手取り
+      expect(result.taxSavings).toBe(
+        result.nisa.netAssets - result.tokutei.netAssets
+      );
+      // 節税額は税金額とほぼ等しい（四捨五入の誤差で±1円程度の差がある可能性）
+      expect(result.taxSavings).toBeGreaterThanOrEqual(result.tokutei.tax - 1);
+      expect(result.taxSavings).toBeLessThanOrEqual(result.tokutei.tax + 1);
+    });
+
+    test('運用益がマイナスの場合、税金が0円になること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 50000,
+        years: 10,
+        annualRate: -5, // マイナス利回り
+      };
+
+      const result = calculateTaxComparison(plan);
+
+      // 運用益がマイナス
+      expect(result.profitBeforeTax).toBeLessThan(0);
+
+      // 税金は0円
+      expect(result.nisa.tax).toBe(0);
+      expect(result.tokutei.tax).toBe(0);
+
+      // 節税額も0円
+      expect(result.taxSavings).toBe(0);
+
+      // NISA と特定口座の手取りが同じ
+      expect(result.nisa.netAssets).toBe(result.tokutei.netAssets);
+    });
+
+    test('利回り0%の場合、税金が0円になること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 50000,
+        years: 10,
+        annualRate: 0,
+      };
+
+      const result = calculateTaxComparison(plan);
+
+      // 運用益が0
+      expect(result.profitBeforeTax).toBe(0);
+
+      // 税金は0円
+      expect(result.nisa.tax).toBe(0);
+      expect(result.tokutei.tax).toBe(0);
+
+      // 節税額も0円
+      expect(result.taxSavings).toBe(0);
+
+      // 総資産 = 元本
+      expect(result.nisa.totalAssets).toBe(result.principal);
+      expect(result.tokutei.totalAssetsBeforeTax).toBe(result.principal);
+    });
+
+    test('税率 20.315% が正確に適用されること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 100000,
+        years: 10,
+        annualRate: 7,
+      };
+
+      const result = calculateTaxComparison(plan);
+
+      // 運用益がプラスであること
+      expect(result.profitBeforeTax).toBeGreaterThan(0);
+
+      // 税金 = 運用益 × 0.20315（小数点以下切り捨て）
+      const expectedTax = Math.floor(result.profitBeforeTax * 0.20315);
+      expect(result.tokutei.tax).toBe(expectedTax);
+
+      // 税率の範囲チェック（約20%）
+      const actualTaxRate = result.tokutei.tax / result.profitBeforeTax;
+      expect(actualTaxRate).toBeGreaterThanOrEqual(0.20);
+      expect(actualTaxRate).toBeLessThan(0.21);
+    });
+  });
+
+  describe('calculateYearlyTaxComparison', () => {
+    test('正しい年数分のデータポイントが生成されること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 30000,
+        years: 20,
+        annualRate: 5,
+      };
+
+      const yearlyData = calculateYearlyTaxComparison(plan);
+
+      // 0年目から20年目まで、合計21個のデータポイント
+      expect(yearlyData).toHaveLength(21);
+
+      // 最初のデータポイント（0年目）
+      expect(yearlyData[0].year).toBe(0);
+      expect(yearlyData[0].principal).toBe(0);
+      expect(yearlyData[0].nisaNetAssets).toBe(0);
+      expect(yearlyData[0].tokuteiNetAssets).toBe(0);
+      expect(yearlyData[0].taxAmount).toBe(0);
+
+      // 最後のデータポイント（20年目）
+      expect(yearlyData[20].year).toBe(20);
+      expect(yearlyData[20].principal).toBe(7200000);
+    });
+
+    test('各年のデータが正しく計算されること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 50000,
+        years: 10,
+        annualRate: 5,
+      };
+
+      const yearlyData = calculateYearlyTaxComparison(plan);
+
+      // すべての年でNISAの手取り >= 特定口座の手取り
+      yearlyData.forEach((data) => {
+        expect(data.nisaNetAssets).toBeGreaterThanOrEqual(data.tokuteiNetAssets);
+      });
+
+      // 税金は年々増えていく（運用益が増えるため）
+      for (let i = 1; i < yearlyData.length; i++) {
+        if (yearlyData[i].taxAmount > 0) {
+          expect(yearlyData[i].taxAmount).toBeGreaterThanOrEqual(
+            yearlyData[i - 1].taxAmount
+          );
+        }
+      }
+    });
+
+    test('運用益がマイナスの場合、すべての年で税金が0円になること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 50000,
+        years: 10,
+        annualRate: -3,
+      };
+
+      const yearlyData = calculateYearlyTaxComparison(plan);
+
+      // すべての年で税金が0円
+      yearlyData.forEach((data) => {
+        expect(data.taxAmount).toBe(0);
+        // NISA と特定口座の手取りが同じ
+        expect(data.nisaNetAssets).toBe(data.tokuteiNetAssets);
+      });
+    });
+
+    test('年次データの増加が正しく行われること', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 30000,
+        years: 5,
+        annualRate: 5,
+      };
+
+      const yearlyData = calculateYearlyTaxComparison(plan);
+
+      // 元本は年々増加
+      for (let i = 1; i < yearlyData.length; i++) {
+        expect(yearlyData[i].principal).toBeGreaterThan(yearlyData[i - 1].principal);
+      }
+
+      // NISA の手取り総資産は年々増加
+      for (let i = 1; i < yearlyData.length; i++) {
+        expect(yearlyData[i].nisaNetAssets).toBeGreaterThan(
+          yearlyData[i - 1].nisaNetAssets
+        );
+      }
     });
   });
 });
