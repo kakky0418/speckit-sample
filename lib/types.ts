@@ -4,6 +4,7 @@ export interface InvestmentPlan {
   monthlyAmount: number;
   years: number;
   annualRate: number;
+  initialAmount?: number;  // 初回投資額（円）
 }
 
 export interface SimulationResult {

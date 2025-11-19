@@ -7,7 +7,7 @@ export const NISA_LIMITS = {
 } as const;
 
 export const INPUT_CONSTRAINTS = {
-  MIN_MONTHLY_AMOUNT: 100,
+  MIN_MONTHLY_AMOUNT: 0, // 0円を許容（初回投資額のみのシミュレーションを可能にする）
   MAX_YEARS: 40,
   MIN_YEARS: 1,
   MIN_ANNUAL_RATE: -10.0,
