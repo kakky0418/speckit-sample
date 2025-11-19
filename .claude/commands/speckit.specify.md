@@ -102,40 +102,40 @@ Given that feature description, do this:
    a. **Create Spec Quality Checklist**: Generate a checklist file at `FEATURE_DIR/checklists/requirements.md` using the checklist template structure with these validation items:
 
       ```markdown
-      # Specification Quality Checklist: [FEATURE NAME]
-      
-      **Purpose**: Validate specification completeness and quality before proceeding to planning
-      **Created**: [DATE]
-      **Feature**: [Link to spec.md]
-      
-      ## Content Quality
-      
-      - [ ] No implementation details (languages, frameworks, APIs)
-      - [ ] Focused on user value and business needs
-      - [ ] Written for non-technical stakeholders
-      - [ ] All mandatory sections completed
-      
-      ## Requirement Completeness
-      
-      - [ ] No [NEEDS CLARIFICATION] markers remain
-      - [ ] Requirements are testable and unambiguous
-      - [ ] Success criteria are measurable
-      - [ ] Success criteria are technology-agnostic (no implementation details)
-      - [ ] All acceptance scenarios are defined
-      - [ ] Edge cases are identified
-      - [ ] Scope is clearly bounded
-      - [ ] Dependencies and assumptions identified
-      
-      ## Feature Readiness
-      
-      - [ ] All functional requirements have clear acceptance criteria
-      - [ ] User scenarios cover primary flows
-      - [ ] Feature meets measurable outcomes defined in Success Criteria
-      - [ ] No implementation details leak into specification
-      
-      ## Notes
-      
-      - Items marked incomplete require spec updates before `/speckit.clarify` or `/speckit.plan`
+      # 仕様品質チェックリスト: [FEATURE NAME]
+
+      **目的**: 計画フェーズに進む前に仕様の完全性と品質を検証する
+      **作成日**: [DATE]
+      **機能**: [Link to spec.md]
+
+      ## コンテンツ品質
+
+      - [ ] 実装の詳細が含まれていない（言語、フレームワーク、API など）
+      - [ ] ユーザー価値とビジネスニーズに焦点を当てている
+      - [ ] 技術者以外のステークホルダー向けに書かれている
+      - [ ] すべての必須セクションが完成している
+
+      ## 要件の完全性
+
+      - [ ] [NEEDS CLARIFICATION] マーカーが残っていない
+      - [ ] 要件がテスト可能で明確である
+      - [ ] 成功基準が測定可能である
+      - [ ] 成功基準が技術非依存である（実装詳細が含まれていない）
+      - [ ] すべての受入れシナリオが定義されている
+      - [ ] エッジケースが特定されている
+      - [ ] スコープが明確に定義されている
+      - [ ] 依存関係と前提条件が特定されている
+
+      ## 機能の準備状況
+
+      - [ ] すべての機能要件に明確な受入れ基準がある
+      - [ ] ユーザーシナリオが主要なフローをカバーしている
+      - [ ] 機能が成功基準で定義された測定可能な成果を満たしている
+      - [ ] 実装の詳細が仕様に漏れていない
+
+      ## 備考
+
+      - 不完全とマークされた項目は `/speckit.clarify` または `/speckit.plan` の前に仕様の更新が必要です
       ```
 
    b. **Run Validation Check**: Review the spec against each checklist item:
