@@ -78,6 +78,83 @@ describe('Calculator', () => {
       expect(result.isOverNisaLimit).toBe(true);
       expect(result.nisaUtilizationRate).toBeGreaterThan(1);
     });
+
+    // 初回投資額のテストケース
+    test('初回投資額のみのシミュレーション', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 0,
+        years: 20,
+        annualRate: 5.0,
+        initialAmount: 1000000,
+      };
+
+      const result = calculateSimulation(plan);
+
+      // 元本 = 初回投資額のみ
+      expect(result.totalPrincipal).toBe(1000000);
+
+      // 期待値: 1000000 * (1 + 0.05/12)^(20*12) ≈ 2,712,640 円（月次複利）
+      expect(result.totalAssets).toBeCloseTo(2712640, 0);
+
+      // 運用益
+      expect(result.totalProfit).toBeGreaterThan(1700000);
+    });
+
+    test('初回投資額 + 月次積立のシミュレーション', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 30000,
+        years: 20,
+        annualRate: 5.0,
+        initialAmount: 1000000,
+      };
+
+      const result = calculateSimulation(plan);
+
+      // 元本: 1000000 + (30000 * 240) = 8,200,000 円
+      expect(result.totalPrincipal).toBe(8200000);
+
+      // 総資産額は元本より大きい
+      expect(result.totalAssets).toBeGreaterThan(result.totalPrincipal);
+
+      // 運用益は正の値
+      expect(result.totalProfit).toBeGreaterThan(0);
+    });
+
+    test('初回投資額が未入力（undefined）の場合', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 30000,
+        years: 20,
+        annualRate: 5.0,
+        initialAmount: undefined,
+      };
+
+      const result = calculateSimulation(plan);
+
+      // 既存の動作と同じになることを確認
+      expect(result.totalPrincipal).toBe(7200000);
+      expect(result.totalAssets).toBeGreaterThan(12000000);
+      expect(result.totalAssets).toBeLessThan(13000000);
+    });
+
+    test('利回り 0% の場合の初回投資額', () => {
+      const plan: InvestmentPlan = {
+        monthlyAmount: 30000,
+        years: 20,
+        annualRate: 0,
+        initialAmount: 1000000,
+      };
+
+      const result = calculateSimulation(plan);
+
+      // 元本 = 1000000 + (30000 * 240) = 8,200,000 円
+      expect(result.totalPrincipal).toBe(8200000);
+
+      // 利回り 0% なので総資産 = 元本
+      expect(result.totalAssets).toBe(8200000);
+
+      // 運用益 = 0
+      expect(result.totalProfit).toBe(0);
+    });
   });
 
   describe('generateChartData', () => {
