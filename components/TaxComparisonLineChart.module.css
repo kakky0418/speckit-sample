@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+
+.chartWrapper {
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .chartWrapper {
+    height: 300px;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
