@@ -37,7 +37,7 @@ export function TaxComparisonLineChart({ yearlyData }: TaxComparisonLineChartPro
     datasets: [
       {
         label: "NISA（非課税）",
-        data: yearlyData.map((d) => d.nisaNetAssets),
+        data: yearlyData.map((d) => d.nisaNetAssets / 10000),
         borderColor: "rgb(59, 130, 246)", // blue
         backgroundColor: "rgba(59, 130, 246, 0.1)",
         borderWidth: 2,
@@ -46,7 +46,7 @@ export function TaxComparisonLineChart({ yearlyData }: TaxComparisonLineChartPro
       },
       {
         label: "特定口座（課税）",
-        data: yearlyData.map((d) => d.tokuteiNetAssets),
+        data: yearlyData.map((d) => d.tokuteiNetAssets / 10000),
         borderColor: "rgb(239, 68, 68)", // red
         backgroundColor: "rgba(239, 68, 68, 0.1)",
         borderWidth: 2,
@@ -93,7 +93,7 @@ export function TaxComparisonLineChart({ yearlyData }: TaxComparisonLineChartPro
               label += ": ";
             }
             if (context.parsed.y !== null) {
-              label += context.parsed.y.toLocaleString("ja-JP") + "円";
+              label += context.parsed.y.toLocaleString("ja-JP", { maximumFractionDigits: 1 }) + "万円";
             }
             return label;
           },
@@ -110,7 +110,7 @@ export function TaxComparisonLineChart({ yearlyData }: TaxComparisonLineChartPro
         beginAtZero: true,
         ticks: {
           callback: function (value: any) {
-            return value.toLocaleString("ja-JP") + "円";
+            return value.toLocaleString("ja-JP", { maximumFractionDigits: 1 }) + "万円";
           },
         },
       },

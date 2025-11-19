@@ -1,17 +1,15 @@
 <!--
 Sync Impact Report:
-Version Change: 1.0.0 → 1.1.0
+Version Change: 1.1.0 → 1.2.0
 Modified Principles: N/A
 Added Sections:
-  - Intent（インテント）を AI-DLC Requirements のインセプションフェーズ成果物に追加（必須化）
+  - Development Workflow に「作業中の改善・修正（In-Flight Changes）」セクションを追加
 Removed Sections: N/A
 Templates Status:
-  ✅ plan-template.md - Constitution Check gate aligns with principles
-  ✅ spec-template.md - Intent セクション追加（mandatory）
-  ✅ tasks-template.md - User story organization aligns with Principle IV
-  ✅ README.md - プロジェクトレベルの Intent セクション追加
-  ✅ specs/001-nisa-simulator/spec.md - Intent セクション追加
+  ✅ All templates - No changes required (new workflow guideline only)
 Follow-up TODOs: None
+Previous Changes (1.0.0 → 1.1.0):
+  - Intent（インテント）を AI-DLC Requirements のインセプションフェーズ成果物に追加（必須化）
 -->
 
 # speckit-sample Constitution
@@ -99,6 +97,30 @@ TDD は非交渉的な必須プラクティス：
 6. **実装**: `/speckit.implement` でタスクを実行
 7. **整合性確認**: `/speckit.analyze` でドキュメント間の一貫性をチェック
 
+### 作業中の改善・修正（In-Flight Changes）
+
+開発中に気づいた小規模な改善や修正は、以下の条件を満たす場合、同じブランチで即座に対応可能：
+
+**許可される変更**:
+- UI/UX の軽微な改善（表示単位の変更、ラベル修正など）
+- 明らかなバグ修正
+- コードの可読性向上（リファクタリング）
+- 既存機能と密接に関連する小規模な機能追加
+
+**条件**:
+1. **小規模であること**: 変更ファイル数が 15 ファイル以下、または 2 時間以内で完了
+2. **既存機能との関連性**: 現在実装中の機能と直接関係がある
+3. **仕様更新**: spec.md に User Story を追記（優先度 P2 以下）
+4. **タスク追加**: tasks.md に新しいフェーズ/タスクを追加
+5. **テスト**: 既存テストが引き続き成功すること
+
+**理由**: AI-DLC の高速イテレーション精神を維持しつつ、開発中の文脈が残っている状態で効率的に改善を適用するため。新しいブランチを作成するオーバーヘッドよりも、作業の連続性を優先する。
+
+**禁止事項**:
+- 全く異なる機能の追加（新しいブランチを作成すること）
+- 大規模なアーキテクチャ変更（別途計画が必要）
+- データモデルの破壊的変更
+
 ### ブランチ戦略
 - フィーチャーブランチ: `###-feature-name` 形式（例: 001-nisa-simulator）
 - 各ブランチに対応する specs/###-feature-name/ ディレクトリ
@@ -130,4 +152,4 @@ TDD は非交渉的な必須プラクティス：
 - 複雑さは plan.md の「Complexity Tracking」セクションで正当化必須
 - ランタイム開発ガイダンスは CLAUDE.md を参照
 
-**Version**: 1.1.0 | **Ratified**: 2025-11-18 | **Last Amended**: 2025-11-18
+**Version**: 1.2.0 | **Ratified**: 2025-11-18 | **Last Amended**: 2025-11-19

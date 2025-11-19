@@ -4,20 +4,27 @@ import type { InvestmentPlan, SimulationResult, ChartDataPoint, Scenario } from 
 import { NISA_LIMITS } from './constants';
 
 export function calculateSimulation(plan: InvestmentPlan): SimulationResult {
-  const { monthlyAmount, years, annualRate } = plan;
+  const { monthlyAmount, years, annualRate, initialAmount = 0 } = plan;
 
-  // 1. 元本合計
-  const totalPrincipal = monthlyAmount * years * 12;
+  // 1. 元本合計（初回投資額を含む）
+  const totalPrincipal = (initialAmount || 0) + (monthlyAmount * years * 12);
 
-  // 2. 総資産額（複利計算）
+  // 2. 総資産額（複利計算、初回投資額を含む）
   const monthlyRate = annualRate / 12 / 100;
   const months = years * 12;
 
   let totalAssets: number;
   if (monthlyRate === 0) {
-    totalAssets = monthlyAmount * months;
+    // 利回り 0% の場合
+    totalAssets = (initialAmount || 0) + (monthlyAmount * months);
   } else {
-    totalAssets = monthlyAmount * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+    // 初回投資額の複利成長
+    const initialGrowth = (initialAmount || 0) * Math.pow(1 + monthlyRate, months);
+
+    // 月次積立の複利成長
+    const monthlyGrowth = monthlyAmount * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+
+    totalAssets = initialGrowth + monthlyGrowth;
   }
 
   // 3. 運用益
@@ -47,19 +54,33 @@ export function calculateSimulation(plan: InvestmentPlan): SimulationResult {
 }
 
 export function generateChartData(plan: InvestmentPlan): ChartDataPoint[] {
-  const { monthlyAmount, years, annualRate } = plan;
+  const { monthlyAmount, years, annualRate, initialAmount = 0 } = plan;
   const monthlyRate = annualRate / 12 / 100;
   const chartData: ChartDataPoint[] = [];
 
   for (let year = 0; year <= years; year++) {
     const monthsPassed = year * 12;
-    const principal = monthlyAmount * monthsPassed;
 
+    // 元本 = 初回投資額 + 月次積立の累計
+    const principal = (initialAmount || 0) + (monthlyAmount * monthsPassed);
+
+    // 総資産額
     let totalAssets: number;
     if (monthlyRate === 0) {
       totalAssets = principal;
     } else {
-      totalAssets = monthlyAmount * (Math.pow(1 + monthlyRate, monthsPassed) - 1) / monthlyRate;
+      // 初回投資額の成長
+      const initialGrowth = (initialAmount || 0) * Math.pow(1 + monthlyRate, monthsPassed);
+
+      // 月次積立の成長
+      let monthlyGrowth: number;
+      if (monthsPassed === 0) {
+        monthlyGrowth = 0;
+      } else {
+        monthlyGrowth = monthlyAmount * (Math.pow(1 + monthlyRate, monthsPassed) - 1) / monthlyRate;
+      }
+
+      totalAssets = initialGrowth + monthlyGrowth;
     }
 
     chartData.push({
@@ -98,20 +119,26 @@ const TAX_RATE = 0.20315;
  * NISA と特定口座の税金比較を計算する
  */
 export function calculateTaxComparison(plan: InvestmentPlan): import('./types').TaxComparisonResult {
-  const { monthlyAmount, years, annualRate } = plan;
+  const { monthlyAmount, years, annualRate, initialAmount = 0 } = plan;
 
-  // 1. 元本合計
-  const principal = monthlyAmount * years * 12;
+  // 1. 元本合計（初回投資額を含む）
+  const principal = (initialAmount || 0) + (monthlyAmount * years * 12);
 
-  // 2. 総資産額（複利計算）
+  // 2. 総資産額（複利計算、初回投資額を含む）
   const monthlyRate = annualRate / 12 / 100;
   const months = years * 12;
 
   let totalAssets: number;
   if (monthlyRate === 0) {
-    totalAssets = monthlyAmount * months;
+    totalAssets = (initialAmount || 0) + (monthlyAmount * months);
   } else {
-    totalAssets = monthlyAmount * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+    // 初回投資額の複利成長
+    const initialGrowth = (initialAmount || 0) * Math.pow(1 + monthlyRate, months);
+
+    // 月次積立の複利成長
+    const monthlyGrowth = monthlyAmount * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+
+    totalAssets = initialGrowth + monthlyGrowth;
   }
 
   // 3. 運用益（税引前）
@@ -150,24 +177,33 @@ export function calculateTaxComparison(plan: InvestmentPlan): import('./types').
  * 年次ごとの税金比較データを生成する（グラフ用）
  */
 export function calculateYearlyTaxComparison(plan: InvestmentPlan): import('./types').YearlyTaxData[] {
-  const { monthlyAmount, years, annualRate } = plan;
+  const { monthlyAmount, years, annualRate, initialAmount = 0 } = plan;
   const monthlyRate = annualRate / 12 / 100;
   const yearlyData: import('./types').YearlyTaxData[] = [];
 
   for (let year = 0; year <= years; year++) {
     const monthsPassed = year * 12;
-    const principal = monthlyAmount * monthsPassed;
 
-    // 総資産額（税引前）
+    // 元本（初回投資額を含む）
+    const principal = (initialAmount || 0) + (monthlyAmount * monthsPassed);
+
+    // 総資産額（税引前、初回投資額を含む）
     let totalAssets: number;
     if (monthlyRate === 0) {
       totalAssets = principal;
     } else {
+      // 初回投資額の成長
+      const initialGrowth = (initialAmount || 0) * Math.pow(1 + monthlyRate, monthsPassed);
+
+      // 月次積立の成長
+      let monthlyGrowth: number;
       if (monthsPassed === 0) {
-        totalAssets = 0;
+        monthlyGrowth = 0;
       } else {
-        totalAssets = monthlyAmount * (Math.pow(1 + monthlyRate, monthsPassed) - 1) / monthlyRate;
+        monthlyGrowth = monthlyAmount * (Math.pow(1 + monthlyRate, monthsPassed) - 1) / monthlyRate;
       }
+
+      totalAssets = initialGrowth + monthlyGrowth;
     }
 
     // 運用益

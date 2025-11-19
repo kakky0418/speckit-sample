@@ -33,8 +33,8 @@ interface InvestmentChartProps {
 
 export function InvestmentChart({ chartData }: InvestmentChartProps) {
   const labels = chartData.map((point) => `${point.year}年`);
-  const principalData = chartData.map((point) => point.principal);
-  const totalAssetsData = chartData.map((point) => point.totalAssets);
+  const principalData = chartData.map((point) => point.principal / 10000);
+  const totalAssetsData = chartData.map((point) => point.totalAssets / 10000);
 
   const data = {
     labels,
@@ -87,11 +87,7 @@ export function InvestmentChart({ chartData }: InvestmentChartProps) {
               label += ': ';
             }
             if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat('ja-JP', {
-                style: 'currency',
-                currency: 'JPY',
-                maximumFractionDigits: 0,
-              }).format(context.parsed.y);
+              label += context.parsed.y.toLocaleString('ja-JP', { maximumFractionDigits: 1 }) + '万円';
             }
             return label;
           },
@@ -103,12 +99,7 @@ export function InvestmentChart({ chartData }: InvestmentChartProps) {
         beginAtZero: true,
         ticks: {
           callback: function(value: any) {
-            return new Intl.NumberFormat('ja-JP', {
-              style: 'currency',
-              currency: 'JPY',
-              notation: 'compact',
-              maximumFractionDigits: 0,
-            }).format(value);
+            return value.toLocaleString('ja-JP', { maximumFractionDigits: 1 }) + '万円';
           },
         },
       },

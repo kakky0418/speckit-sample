@@ -27,6 +27,11 @@ export function validateInvestmentPlan(plan: InvestmentPlan): ValidationResult {
     errors.push(`想定利回りは${INPUT_CONSTRAINTS.MAX_ANNUAL_RATE}%以下を入力してください`);
   }
 
+  // initialAmount のバリデーション（任意フィールド）
+  if (plan.initialAmount !== undefined && plan.initialAmount < 0) {
+    errors.push('初回投資額は0円以上を入力してください');
+  }
+
   return {
     isValid: errors.length === 0,
     errors,

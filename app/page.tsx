@@ -64,14 +64,20 @@ export default function Home() {
           <div className={styles.formGroup}>
             <div>
               <label className={styles.label}>
-                毎月の積立額（円）
+                毎月の積立額（万円）
               </label>
               <input
                 type="number"
-                value={plan.monthlyAmount}
-                onChange={(e) => updatePlan("monthlyAmount", Number(e.target.value))}
+                value={plan.monthlyAmount / 10000}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // 先頭の0を削除（0100 -> 100）
+                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
+                  updatePlan("monthlyAmount", Number(normalizedValue) * 10000);
+                }}
                 className={styles.input}
-                min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT}
+                min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT / 10000}
+                step="0.1"
               />
             </div>
 
@@ -82,7 +88,12 @@ export default function Home() {
               <input
                 type="number"
                 value={plan.years}
-                onChange={(e) => updatePlan("years", Number(e.target.value))}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // 先頭の0を削除（020 -> 20）
+                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
+                  updatePlan("years", Number(normalizedValue));
+                }}
                 className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_YEARS}
                 max={INPUT_CONSTRAINTS.MAX_YEARS}
@@ -96,11 +107,36 @@ export default function Home() {
               <input
                 type="number"
                 value={plan.annualRate}
-                onChange={(e) => updatePlan("annualRate", Number(e.target.value))}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // 先頭の0を削除（05.0 -> 5.0）
+                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
+                  updatePlan("annualRate", Number(normalizedValue));
+                }}
                 className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_ANNUAL_RATE}
                 max={INPUT_CONSTRAINTS.MAX_ANNUAL_RATE}
                 step="0.1"
+              />
+            </div>
+
+            <div>
+              <label className={styles.label}>
+                初回投資額（万円）
+              </label>
+              <input
+                type="number"
+                value={(plan.initialAmount ?? 0) / 10000}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // 先頭の0を削除（0100 -> 100）
+                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
+                  updatePlan("initialAmount", normalizedValue === '' ? 0 : Number(normalizedValue) * 10000);
+                }}
+                className={styles.input}
+                min="0"
+                placeholder="0"
+                step="1"
               />
             </div>
 
@@ -138,21 +174,21 @@ export default function Home() {
                     <div className={clsx(styles.resultCard, styles.resultCardGreen)}>
                       <p className={styles.resultLabel}>総資産額</p>
                       <p className={clsx(styles.resultValue, styles.resultValueGreen)}>
-                        {result.totalAssets.toLocaleString('ja-JP')}円
+                        {(result.totalAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                       </p>
                     </div>
 
                     <div className={clsx(styles.resultCard, styles.resultCardBlue)}>
                       <p className={styles.resultLabel}>元本合計</p>
                       <p className={clsx(styles.resultValue, styles.resultValueBlue)}>
-                        {result.totalPrincipal.toLocaleString('ja-JP')}円
+                        {(result.totalPrincipal / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                       </p>
                     </div>
 
                     <div className={clsx(styles.resultCard, styles.resultCardPurple)}>
                       <p className={styles.resultLabel}>運用益</p>
                       <p className={clsx(styles.resultValue, styles.resultValuePurple)}>
-                        {result.totalProfit.toLocaleString('ja-JP')}円
+                        {(result.totalProfit / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                       </p>
                     </div>
                   </div>
@@ -163,7 +199,7 @@ export default function Home() {
                   })}>
                     <p className={styles.nisaTitle}>NISA投資枠の活用状況</p>
                     <p className={styles.nisaText}>
-                      年間投資額: <span className={styles.nisaValue}>{result.annualInvestment.toLocaleString('ja-JP')}円</span>
+                      年間投資額: <span className={styles.nisaValue}>{(result.annualInvestment / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円</span>
                     </p>
                     <p className={styles.nisaText}>
                       活用率: <span className={styles.nisaValue}>{(result.nisaUtilizationRate * 100).toFixed(1)}%</span>

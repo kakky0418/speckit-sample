@@ -28,16 +28,17 @@ interface TaxComparisonBarChartProps {
 }
 
 export function TaxComparisonBarChart({ result }: TaxComparisonBarChartProps) {
-  // 手取り運用益を計算
-  const nisaNetProfit = result.profitBeforeTax;
-  const tokuteiNetProfit = result.profitBeforeTax - result.tokutei.tax;
+  // 手取り運用益を計算（万円単位に変換）
+  const nisaNetProfit = result.profitBeforeTax / 10000;
+  const tokuteiNetProfit = (result.profitBeforeTax - result.tokutei.tax) / 10000;
+  const principal = result.principal / 10000;
 
   const data = {
     labels: ["NISA（非課税）", "特定口座（課税）"],
     datasets: [
       {
         label: "元本",
-        data: [result.principal, result.principal],
+        data: [principal, principal],
         backgroundColor: "rgb(59, 130, 246)", // blue
         borderColor: "rgb(59, 130, 246)",
         borderWidth: 1,
@@ -51,7 +52,7 @@ export function TaxComparisonBarChart({ result }: TaxComparisonBarChartProps) {
       },
       {
         label: "税金",
-        data: [0, result.tokutei.tax],
+        data: [0, result.tokutei.tax / 10000],
         backgroundColor: "rgb(239, 68, 68)", // red
         borderColor: "rgb(239, 68, 68)",
         borderWidth: 1,
@@ -92,7 +93,7 @@ export function TaxComparisonBarChart({ result }: TaxComparisonBarChartProps) {
               label += ": ";
             }
             if (context.parsed.y !== null) {
-              label += context.parsed.y.toLocaleString("ja-JP") + "円";
+              label += context.parsed.y.toLocaleString("ja-JP", { maximumFractionDigits: 1 }) + "万円";
             }
             return label;
           },
@@ -111,7 +112,7 @@ export function TaxComparisonBarChart({ result }: TaxComparisonBarChartProps) {
         beginAtZero: true,
         ticks: {
           callback: function (value: any) {
-            return value.toLocaleString("ja-JP") + "円";
+            return value.toLocaleString("ja-JP", { maximumFractionDigits: 1 }) + "万円";
           },
         },
       },

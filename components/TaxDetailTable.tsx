@@ -27,31 +27,31 @@ export function TaxDetailTable({ result }: TaxDetailTableProps) {
             <tr>
               <td className={styles.labelCell}>元本合計</td>
               <td className={styles.valueCell}>
-                {result.principal.toLocaleString('ja-JP')}円
+                {(result.principal / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
               <td className={styles.valueCell}>
-                {result.principal.toLocaleString('ja-JP')}円
+                {(result.principal / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
             </tr>
 
             <tr>
               <td className={styles.labelCell}>運用益（税引前）</td>
               <td className={styles.valueCell}>
-                {result.profitBeforeTax.toLocaleString('ja-JP')}円
+                {(result.profitBeforeTax / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
               <td className={styles.valueCell}>
-                {result.profitBeforeTax.toLocaleString('ja-JP')}円
+                {(result.profitBeforeTax / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
             </tr>
 
             <tr className={styles.highlightRow}>
               <td className={styles.labelCell}>税金（20.315%）</td>
               <td className={styles.valueCellGreen}>
-                <span className={styles.taxZero}>0円</span>
+                <span className={styles.taxZero}>0万円</span>
               </td>
               <td className={styles.valueCellRed}>
                 <span className={styles.taxAmount}>
-                  {result.tokutei.tax.toLocaleString('ja-JP')}円
+                  {(result.tokutei.tax / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                 </span>
               </td>
             </tr>
@@ -59,20 +59,20 @@ export function TaxDetailTable({ result }: TaxDetailTableProps) {
             <tr>
               <td className={styles.labelCell}>手取り運用益</td>
               <td className={styles.valueCell}>
-                {nisaNetProfit.toLocaleString('ja-JP')}円
+                {(nisaNetProfit / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
               <td className={styles.valueCell}>
-                {tokuteiNetProfit.toLocaleString('ja-JP')}円
+                {(tokuteiNetProfit / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
             </tr>
 
             <tr className={styles.totalRow}>
               <td className={styles.labelCellBold}>総資産（手取り）</td>
               <td className={styles.valueCellBold}>
-                {result.nisa.netAssets.toLocaleString('ja-JP')}円
+                {(result.nisa.netAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
               <td className={styles.valueCellBold}>
-                {result.tokutei.netAssets.toLocaleString('ja-JP')}円
+                {(result.tokutei.netAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </td>
             </tr>
           </tbody>

@@ -15,6 +15,7 @@ const defaultPlan: InvestmentPlan = {
   monthlyAmount: 30000,
   years: 20,
   annualRate: 5,
+  initialAmount: 0,  // 初回投資額（デフォルトは 0 円）
 };
 
 // Context の作成

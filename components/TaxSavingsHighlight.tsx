@@ -15,7 +15,7 @@ export function TaxSavingsHighlight({ result }: TaxSavingsHighlightProps) {
         </div>
         <h2 className={styles.title}>NISA の節税効果</h2>
         <p className={styles.savingsAmount}>
-          {result.taxSavings.toLocaleString('ja-JP')}円
+          {(result.taxSavings / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
         </p>
         <p className={styles.savingsLabel}>お得！</p>
       </div>
@@ -25,25 +25,25 @@ export function TaxSavingsHighlight({ result }: TaxSavingsHighlightProps) {
         <div className={styles.comparisonCard}>
           <h3 className={styles.cardTitle}>NISA（非課税）</h3>
           <p className={styles.netAmount}>
-            {result.nisa.netAssets.toLocaleString('ja-JP')}円
+            {(result.nisa.netAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
           </p>
           <p className={styles.cardLabel}>手取り総資産</p>
           <div className={styles.detail}>
             <span>税金</span>
-            <span className={styles.taxZero}>0円</span>
+            <span className={styles.taxZero}>0万円</span>
           </div>
         </div>
 
         <div className={styles.comparisonCard}>
           <h3 className={styles.cardTitle}>特定口座（課税）</h3>
           <p className={styles.netAmount}>
-            {result.tokutei.netAssets.toLocaleString('ja-JP')}円
+            {(result.tokutei.netAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
           </p>
           <p className={styles.cardLabel}>手取り総資産</p>
           <div className={styles.detail}>
             <span>税金</span>
             <span className={styles.taxAmount}>
-              {result.tokutei.tax.toLocaleString('ja-JP')}円
+              {(result.tokutei.tax / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
             </span>
           </div>
         </div>

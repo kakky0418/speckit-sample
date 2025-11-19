@@ -44,7 +44,13 @@ export default function TaxComparisonPage() {
             <div className={styles.conditionItem}>
               <span className={styles.conditionLabel}>毎月の積立額</span>
               <span className={styles.conditionValue}>
-                {plan.monthlyAmount.toLocaleString('ja-JP')}円
+                {(plan.monthlyAmount / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
+              </span>
+            </div>
+            <div className={styles.conditionItem}>
+              <span className={styles.conditionLabel}>初回投資額</span>
+              <span className={styles.conditionValue}>
+                {((plan.initialAmount ?? 0) / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
               </span>
             </div>
             <div className={styles.conditionItem}>

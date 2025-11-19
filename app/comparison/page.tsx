@@ -82,14 +82,15 @@ export default function ComparisonPage() {
           <div className={styles.formGrid2}>
             <div>
               <label className={styles.label}>
-                毎月の積立額（円）
+                毎月の積立額（万円）
               </label>
               <input
                 type="number"
-                value={plan.monthlyAmount}
-                onChange={(e) => handleInputChange("monthlyAmount", Number(e.target.value))}
+                value={plan.monthlyAmount / 10000}
+                onChange={(e) => handleInputChange("monthlyAmount", Number(e.target.value) * 10000)}
                 className={styles.input}
-                min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT}
+                min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT / 10000}
+                step="0.1"
               />
             </div>
 
@@ -179,21 +180,21 @@ export default function ComparisonPage() {
                       <div>
                         <p className={styles.resultLabel}>総資産額</p>
                         <p className={styles.resultValueLarge} style={{ color: scenario.color }}>
-                          {scenario.result.totalAssets.toLocaleString('ja-JP')}円
+                          {(scenario.result.totalAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                         </p>
                       </div>
 
                       <div>
                         <p className={styles.resultLabel}>元本合計</p>
                         <p className={styles.resultValueMedium}>
-                          {scenario.result.totalPrincipal.toLocaleString('ja-JP')}円
+                          {(scenario.result.totalPrincipal / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                         </p>
                       </div>
 
                       <div>
                         <p className={styles.resultLabel}>運用益</p>
                         <p className={styles.resultValueMedium}>
-                          {scenario.result.totalProfit.toLocaleString('ja-JP')}円
+                          {(scenario.result.totalProfit / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
                         </p>
                       </div>
                     </div>
