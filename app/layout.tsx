@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
   title: "NISA積立シミュレーター",
@@ -13,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="antialiased">
+      <body className={styles.body}>
         {children}
       </body>
     </html>
