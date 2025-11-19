@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import type { Scenario } from '@/lib/types';
+import styles from './ComparisonChart.module.css';
 
 // Chart.js のコンポーネントを登録
 ChartJS.register(
@@ -114,7 +115,7 @@ export function ComparisonChart({ scenarios }: ComparisonChartProps) {
   };
 
   return (
-    <div className="w-full h-[400px]">
+    <div className={styles.container}>
       <Line data={data} options={options} />
     </div>
   );

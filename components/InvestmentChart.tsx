@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import type { ChartDataPoint } from '@/lib/types';
+import styles from './InvestmentChart.module.css';
 
 // Chart.js のコンポーネントを登録
 ChartJS.register(
@@ -121,7 +122,7 @@ export function InvestmentChart({ chartData }: InvestmentChartProps) {
   };
 
   return (
-    <div className="w-full h-[400px]">
+    <div className={styles.container}>
       <Line data={data} options={options} />
     </div>
   );
