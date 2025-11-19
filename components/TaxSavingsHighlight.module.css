@@ -1,0 +1,102 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 節税額カード */
+.savingsCard {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.savingsAmount {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.savingsLabel {
+  font-size: 1.25rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* 比較グリッド */
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .comparisonGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.comparisonCard {
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.netAmount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #059669;
+  margin-bottom: 0.5rem;
+}
+
+.cardLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.taxZero {
+  font-weight: 600;
+  color: #059669;
+}
+
+.taxAmount {
+  font-weight: 600;
+  color: #ef4444;
+}
