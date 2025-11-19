@@ -1,0 +1,219 @@
+/* コンテナ */
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  padding-bottom: 5rem;
+  font-family: var(--font-sans);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 5rem;
+  }
+}
+
+/* メイン */
+.main {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+/* ヘッダー */
+.header {
+  margin-bottom: 2rem;
+}
+
+.backLink {
+  color: #2563eb;
+  margin-bottom: 1rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: #1d4ed8;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* カード */
+.card {
+  background-color: var(--color-card-bg);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* フォーム */
+.formGrid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .formGrid2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.button {
+  width: 100%;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #1d4ed8;
+}
+
+/* エラー */
+.errorContainer {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  border-radius: 0.375rem;
+}
+
+.errorTitle {
+  font-weight: 600;
+  color: var(--color-error-text);
+  margin-bottom: 0.5rem;
+}
+
+.errorList {
+  list-style: disc;
+  list-style-position: inside;
+  color: var(--color-error-text);
+}
+
+/* シナリオ設定 */
+.scenarioGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .scenarioGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.scenarioCard {
+  padding: 1rem;
+  border: 2px solid;
+  border-radius: 0.375rem;
+}
+
+.scenarioName {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* 結果表示 */
+.resultGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .resultGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.resultCard {
+  padding: 1rem;
+  border: 2px solid;
+  border-radius: 0.375rem;
+}
+
+.resultTitle {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+}
+
+.resultItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.resultLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.resultValueLarge {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.resultValueMedium {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* 免責事項 */
+.disclaimer {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  border-radius: 0.375rem;
+}
+
+.disclaimerText {
+  font-size: 0.875rem;
+  color: var(--color-text);
+}

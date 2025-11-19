@@ -7,6 +7,7 @@ import { calculateMultipleScenarios } from "@/lib/calculator";
 import { validateInvestmentPlan } from "@/lib/validation";
 import { INPUT_CONSTRAINTS } from "@/lib/constants";
 import { ComparisonChart } from "@/components/ComparisonChart";
+import styles from "./page.module.css";
 
 // デフォルトシナリオ設定
 const DEFAULT_SCENARIOS = [
@@ -56,51 +57,51 @@ export default function ComparisonPage() {
   };
 
   return (
-    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-sans">
-      <main className="max-w-6xl mx-auto">
+    <div className={styles.container}>
+      <main className={styles.main}>
         {/* ヘッダー */}
-        <div className="mb-8">
+        <div className={styles.header}>
           <Link
             href="/"
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 mb-4 inline-block"
+            className={styles.backLink}
           >
             ← 基本シミュレーターに戻る
           </Link>
-          <h1 className="text-3xl font-bold text-center">
+          <h1 className={styles.title}>
             運用シナリオ比較
           </h1>
-          <p className="text-center text-gray-600 dark:text-gray-400 mt-2">
+          <p className={styles.subtitle}>
             複数の想定利回りで同時にシミュレーションを実行し、結果を比較できます
           </p>
         </div>
 
         {/* 基本条件入力フォーム */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">基本条件を入力</h2>
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>基本条件を入力</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={styles.formGrid2}>
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className={styles.label}>
                 毎月の積立額（円）
               </label>
               <input
                 type="number"
                 value={plan.monthlyAmount}
                 onChange={(e) => handleInputChange("monthlyAmount", Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className={styles.label}>
                 積立期間（年）
               </label>
               <input
                 type="number"
                 value={plan.years}
                 onChange={(e) => handleInputChange("years", Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_YEARS}
                 max={INPUT_CONSTRAINTS.MAX_YEARS}
               />
@@ -109,9 +110,9 @@ export default function ComparisonPage() {
 
           {/* エラー表示 */}
           {errors.length > 0 && (
-            <div className="mt-4 p-4 bg-red-100 dark:bg-red-900/30 border border-red-400 rounded-md">
-              <p className="font-semibold text-red-800 dark:text-red-200 mb-2">入力エラー:</p>
-              <ul className="list-disc list-inside text-red-700 dark:text-red-300">
+            <div className={styles.errorContainer}>
+              <p className={styles.errorTitle}>入力エラー:</p>
+              <ul className={styles.errorList}>
                 {errors.map((error, index) => (
                   <li key={index}>{error}</li>
                 ))}
@@ -121,25 +122,25 @@ export default function ComparisonPage() {
         </div>
 
         {/* シナリオ設定 */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">シナリオ設定</h2>
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>シナリオ設定</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className={styles.scenarioGrid}>
             {scenarios.map((scenario, index) => (
               <div
                 key={index}
-                className="p-4 border-2 rounded-md"
+                className={styles.scenarioCard}
                 style={{ borderColor: scenario.color }}
               >
-                <p className="font-semibold mb-2">{scenario.name}</p>
-                <label className="block text-sm font-medium mb-2">
+                <p className={styles.scenarioName}>{scenario.name}</p>
+                <label className={styles.label}>
                   想定年利回り（%）
                 </label>
                 <input
                   type="number"
                   value={scenario.annualRate}
                   onChange={(e) => handleScenarioRateChange(index, Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                  className={styles.input}
                   min={INPUT_CONSTRAINTS.MIN_ANNUAL_RATE}
                   max={INPUT_CONSTRAINTS.MAX_ANNUAL_RATE}
                   step="0.1"
@@ -150,7 +151,7 @@ export default function ComparisonPage() {
 
           <button
             onClick={handleCalculate}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md transition-colors"
+            className={styles.button}
           >
             比較計算する
           </button>
@@ -160,38 +161,38 @@ export default function ComparisonPage() {
         {results && (
           <>
             {/* 数値結果 */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-              <h2 className="text-xl font-semibold mb-4">シミュレーション結果比較</h2>
+            <div className={styles.card}>
+              <h2 className={styles.cardTitle}>シミュレーション結果比較</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className={styles.resultGrid}>
                 {results.map((scenario, index) => (
                   <div
                     key={index}
-                    className="p-4 border-2 rounded-md"
+                    className={styles.resultCard}
                     style={{ borderColor: scenario.color }}
                   >
-                    <h3 className="font-bold text-lg mb-3">
+                    <h3 className={styles.resultTitle}>
                       {scenario.name}（{scenario.annualRate}%）
                     </h3>
 
-                    <div className="space-y-3">
+                    <div className={styles.resultItems}>
                       <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">総資産額</p>
-                        <p className="text-xl font-bold" style={{ color: scenario.color }}>
+                        <p className={styles.resultLabel}>総資産額</p>
+                        <p className={styles.resultValueLarge} style={{ color: scenario.color }}>
                           {scenario.result.totalAssets.toLocaleString('ja-JP')}円
                         </p>
                       </div>
 
                       <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">元本合計</p>
-                        <p className="text-lg font-semibold">
+                        <p className={styles.resultLabel}>元本合計</p>
+                        <p className={styles.resultValueMedium}>
                           {scenario.result.totalPrincipal.toLocaleString('ja-JP')}円
                         </p>
                       </div>
 
                       <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">運用益</p>
-                        <p className="text-lg font-semibold">
+                        <p className={styles.resultLabel}>運用益</p>
+                        <p className={styles.resultValueMedium}>
                           {scenario.result.totalProfit.toLocaleString('ja-JP')}円
                         </p>
                       </div>
@@ -202,16 +203,16 @@ export default function ComparisonPage() {
             </div>
 
             {/* グラフ比較 */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">資産推移グラフ比較</h2>
+            <div className={styles.card}>
+              <h2 className={styles.cardTitle}>資産推移グラフ比較</h2>
               <ComparisonChart scenarios={results} />
             </div>
           </>
         )}
 
         {/* 免責事項 */}
-        <div className="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-400 rounded-md">
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+        <div className={styles.disclaimer}>
+          <p className={styles.disclaimerText}>
             ※ 本シミュレーションは参考値であり、実際の運用結果を保証するものではありません。投資判断は自己責任で行ってください。
           </p>
         </div>
