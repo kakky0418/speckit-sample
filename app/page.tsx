@@ -1,22 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import type { InvestmentPlan, SimulationResult } from "@/lib/types";
+import type { SimulationResult } from "@/lib/types";
 import { calculateSimulation } from "@/lib/calculator";
 import { validateInvestmentPlan } from "@/lib/validation";
 import { INPUT_CONSTRAINTS } from "@/lib/constants";
 import { InvestmentChart } from "@/components/InvestmentChart";
+import { useInvestmentPlan } from "@/contexts/InvestmentPlanContext";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const [plan, setPlan] = useState<InvestmentPlan>({
-    monthlyAmount: 30000,
-    years: 20,
-    annualRate: INPUT_CONSTRAINTS.DEFAULT_ANNUAL_RATE,
-  });
-
+  const { plan, updatePlan } = useInvestmentPlan();
   const [result, setResult] = useState<SimulationResult | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -34,13 +30,6 @@ export default function Home() {
     setResult(calculatedResult);
   };
 
-  const handleInputChange = (field: keyof InvestmentPlan, value: number) => {
-    setPlan((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -55,6 +44,12 @@ export default function Home() {
             className={styles.comparisonLink}
           >
             複数シナリオ比較 →
+          </Link>
+          <Link
+            href="/tax-comparison"
+            className={styles.comparisonLink}
+          >
+            税金比較（NISA vs 特定口座）→
           </Link>
         </div>
 
@@ -74,7 +69,7 @@ export default function Home() {
               <input
                 type="number"
                 value={plan.monthlyAmount}
-                onChange={(e) => handleInputChange("monthlyAmount", Number(e.target.value))}
+                onChange={(e) => updatePlan("monthlyAmount", Number(e.target.value))}
                 className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT}
               />
@@ -87,7 +82,7 @@ export default function Home() {
               <input
                 type="number"
                 value={plan.years}
-                onChange={(e) => handleInputChange("years", Number(e.target.value))}
+                onChange={(e) => updatePlan("years", Number(e.target.value))}
                 className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_YEARS}
                 max={INPUT_CONSTRAINTS.MAX_YEARS}
@@ -101,7 +96,7 @@ export default function Home() {
               <input
                 type="number"
                 value={plan.annualRate}
-                onChange={(e) => handleInputChange("annualRate", Number(e.target.value))}
+                onChange={(e) => updatePlan("annualRate", Number(e.target.value))}
                 className={styles.input}
                 min={INPUT_CONSTRAINTS.MIN_ANNUAL_RATE}
                 max={INPUT_CONSTRAINTS.MAX_ANNUAL_RATE}

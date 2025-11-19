@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import styles from "./layout.module.css";
+import { InvestmentPlanProvider } from "@/contexts/InvestmentPlanContext";
 
 export const metadata: Metadata = {
   title: "NISA積立シミュレーター",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={styles.body}>
-        {children}
+        <InvestmentPlanProvider>
+          {children}
+        </InvestmentPlanProvider>
       </body>
     </html>
   );
