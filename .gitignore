@@ -9,12 +9,16 @@
 # next.js
 /.next/
 /out/
+/dist/
 
 # production
 /build
 
 # misc
+.vscode/
+.idea/
 .DS_Store
+*.log
 *.pem
 *.swp
 *.swo

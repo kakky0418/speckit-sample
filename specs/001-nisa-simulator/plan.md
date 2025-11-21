@@ -1,13 +1,13 @@
-# Implementation Plan: NISA積立シミュレーター
+# 実装計画: NISA積立シミュレーター
 
 **Branch**: `001-nisa-simulator` | **Date**: 2025-11-18 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-nisa-simulator/spec.md`
+**入力**: 機能仕様: `/specs/001-nisa-simulator/spec.md`
 
-## Summary
+## サマリー
 
 NISA（少額投資非課税制度）を活用した積立投資の将来シミュレーションを提供する Web アプリケーション。投資初心者が毎月の積立額と期間を入力し、複利計算による将来資産額を確認できる。React + Next.js + bun で構築し、Chart.js によるグラフ表示で視覚的に資産推移を理解できる。完全にステートレスなフロントエンドアプリケーションとして実装し、Vercel で静的ホスティング可能。
 
-## Technical Context
+## 技術コンテキスト
 
 **Language/Version**: TypeScript 5.x + React 18+ + Next.js 14+
 **Primary Dependencies**: Next.js (App Router), Chart.js, react-chartjs-2, Tailwind CSS
@@ -31,9 +31,9 @@ NISA（少額投資非課税制度）を活用した積立投資の将来シミ�
 - 3つのユーザーストーリー（P1: 基本計算、P2: NISA枠表示、P3: シナリオ比較）
 - 想定ユーザー数: 制限なし（静的ホスティング）
 
-## Constitution Check
+## 憲法チェック
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+*ゲート: Phase 0 リサーチ前に確認。Phase 1 設計後に再確認。*
 
 ### ✅ I. Specification-First
 - spec.md 作成済み（ユーザーストーリー、受入れ基準、機能要件すべて記載）
@@ -63,9 +63,9 @@ NISA（少額投資非課税制度）を活用した積立投資の将来シミ�
 
 **Constitution Check Result**: ✅ **ALL GATES PASSED** - Phase 0 research に進む
 
-## Project Structure
+## プロジェクト構造
 
-### Documentation (this feature)
+### ドキュメント（本機能）
 
 ```text
 specs/001-nisa-simulator/
@@ -126,7 +126,7 @@ Next.js 14 App Router を使用した標準的な Web アプリケーション�
 4. **スケーラビリティ**: 将来的な機能追加（iDeCo シミュレーター等）が容易
 5. **ベストプラクティス**: Next.js 公式ドキュメントで推奨されるディレクトリ構造
 
-## Complexity Tracking
+## 複雑性トラッキング
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 

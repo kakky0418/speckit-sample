@@ -1,4 +1,4 @@
-# Data Model: NISA積立シミュレーター
+# データモデル: NISA積立シミュレーター
 
 **Date**: 2025-11-18
 **Feature**: NISA積立シミュレーター

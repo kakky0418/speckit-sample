@@ -5,6 +5,7 @@ export interface InvestmentPlan {
   years: number;
   annualRate: number;
   initialAmount?: number;  // 初回投資額（円）
+  currentAge?: number;     // 現在の年齢（歳）
 }
 
 export interface SimulationResult {
@@ -21,6 +22,27 @@ export interface ChartDataPoint {
   year: number;
   principal: number;
   totalAssets: number;
+}
+
+export interface Milestone {
+  age: number;
+  yearFromNow: number;
+  assets: number;
+}
+
+export interface ReverseCalculationParams {
+  currentAge: number;
+  targetAge: number;
+  targetAmount: number;
+  annualRate: number;
+  initialAmount?: number;
+}
+
+export interface ReverseCalculationResult {
+  requiredMonthlyAmount: number;
+  years: number;
+  isRealistic: boolean;
+  warningMessage: string | null;
 }
 
 export interface Scenario {

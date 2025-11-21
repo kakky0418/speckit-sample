@@ -29,10 +29,13 @@ ChartJS.register(
 
 interface InvestmentChartProps {
   chartData: ChartDataPoint[];
+  currentAge?: number;
 }
 
-export function InvestmentChart({ chartData }: InvestmentChartProps) {
-  const labels = chartData.map((point) => `${point.year}年`);
+export function InvestmentChart({ chartData, currentAge }: InvestmentChartProps) {
+  const labels = currentAge !== undefined
+    ? chartData.map((point) => `${(currentAge + point.year).toLocaleString('ja-JP')} 歳`)
+    : chartData.map((point) => `${point.year.toLocaleString('ja-JP')} 年`);
   const principalData = chartData.map((point) => point.principal / 10000);
   const totalAssetsData = chartData.map((point) => point.totalAssets / 10000);
 

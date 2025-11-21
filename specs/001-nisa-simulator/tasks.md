@@ -1,20 +1,20 @@
-# Tasks: NISA積立シミュレーター
+# タスクリスト: NISA積立シミュレーター
 
-**Input**: Design documents from `/specs/001-nisa-simulator/`
-**Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
-**Technology Stack**: Next.js 14+ (App Router), React 19, TypeScript, Tailwind CSS, Chart.js, bun
+**入力**: Design documents from `/specs/001-nisa-simulator/`
+**前提**: plan.md, spec.md, research.md, data-model.md, contracts/
+**技術スタック**: Next.js 14+ (App Router), React 19, TypeScript, Tailwind CSS, Chart.js, bun
 
-**Tests**: ユニットテストを `__tests__/unit/` に配置
+**テスト**: ユニットテストを `__tests__/unit/` に配置
 
-**Organization**: タスクはユーザーストーリーごとにグループ化されており、各ストーリーを独立して実装・テストできます。
+**構成**: タスクはユーザーストーリーごとにグループ化されており、各ストーリーを独立して実装・テストできます。
 
-## Format: `[ID] [P?] [Story] Description`
+## 記法: `[ID] [P?] [Story] 説明`
 
 - **[P]**: 並列実行可能（異なるファイル、依存関係なし）
 - **[Story]**: タスクが属するユーザーストーリー（例: US1, US2, US3）
 - 説明に正確なファイルパスを含める
 
-## Path Conventions
+## パス規約
 
 Next.js (App Router) + React プロジェクトの標準的な構造：
 - **Types**: `lib/types.ts`

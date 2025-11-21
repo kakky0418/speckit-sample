@@ -7,7 +7,7 @@ import type { InvestmentPlan } from "@/lib/types";
 interface InvestmentPlanContextType {
   plan: InvestmentPlan;
   setPlan: (plan: InvestmentPlan) => void;
-  updatePlan: (field: keyof InvestmentPlan, value: number) => void;
+  updatePlan: (field: keyof InvestmentPlan, value: number | undefined) => void;
 }
 
 // デフォルト値
@@ -28,7 +28,7 @@ export function InvestmentPlanProvider({ children }: { children: ReactNode }) {
   const [plan, setPlan] = useState<InvestmentPlan>(defaultPlan);
 
   // 個別フィールドの更新用ヘルパー関数
-  const updatePlan = (field: keyof InvestmentPlan, value: number) => {
+  const updatePlan = (field: keyof InvestmentPlan, value: number | undefined) => {
     setPlan((prev) => ({
       ...prev,
       [field]: value,

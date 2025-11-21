@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import clsx from "clsx";
 import type { SimulationResult } from "@/lib/types";
 import { calculateSimulation } from "@/lib/calculator";
-import { validateInvestmentPlan } from "@/lib/validation";
-import { INPUT_CONSTRAINTS } from "@/lib/constants";
+import { validateAge, validateInvestmentPlan } from "@/lib/validation";
+import { generateMilestones } from "@/lib/ageUtils";
 import { InvestmentChart } from "@/components/InvestmentChart";
+import { InputForm } from "@/components/InputForm";
+import { ResultDisplay } from "@/components/ResultDisplay";
+import { Milestone } from "@/components/Milestone";
+import { ReverseCalculator } from "@/components/ReverseCalculator";
 import { useInvestmentPlan } from "@/contexts/InvestmentPlanContext";
 import styles from "./page.module.css";
 
@@ -15,12 +18,15 @@ export default function Home() {
   const { plan, updatePlan } = useInvestmentPlan();
   const [result, setResult] = useState<SimulationResult | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
+  const [reverseMode, setReverseMode] = useState<boolean>(false);
 
   const handleCalculate = () => {
-    const validation = validateInvestmentPlan(plan);
+    const ageValidation = validateAge(plan.currentAge);
+    const planValidation = validateInvestmentPlan(plan);
+    const combinedErrors = [...ageValidation.errors, ...planValidation.errors];
 
-    if (!validation.isValid) {
-      setErrors(validation.errors);
+    if (!ageValidation.isValid || !planValidation.isValid) {
+      setErrors(combinedErrors);
       setResult(null);
       return;
     }
@@ -28,6 +34,13 @@ export default function Home() {
     setErrors([]);
     const calculatedResult = calculateSimulation(plan);
     setResult(calculatedResult);
+  };
+
+  const handleApplyReverseAmount = (amount: number) => {
+    updatePlan("monthlyAmount", amount);
+    setReverseMode(false);
+    setErrors([]);
+    setResult(null);
   };
 
   return (
@@ -57,165 +70,54 @@ export default function Home() {
         <div className={styles.layout}>
           {/* 左カラム: 入力フォーム */}
           <div className={styles.column}>
-            {/* 入力フォーム */}
+            <InputForm
+              plan={plan}
+              errors={errors}
+              onChange={updatePlan}
+              onSubmit={handleCalculate}
+            />
+
             <div className={styles.card}>
-          <h2 className={styles.cardTitle}>積立条件を入力</h2>
-
-          <div className={styles.formGroup}>
-            <div>
-              <label className={styles.label}>
-                毎月の積立額（万円）
-              </label>
-              <input
-                type="number"
-                value={plan.monthlyAmount / 10000}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // 先頭の0を削除（0100 -> 100）
-                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
-                  updatePlan("monthlyAmount", Number(normalizedValue) * 10000);
-                }}
-                className={styles.input}
-                min={INPUT_CONSTRAINTS.MIN_MONTHLY_AMOUNT / 10000}
-                step="0.1"
-              />
-            </div>
-
-            <div>
-              <label className={styles.label}>
-                積立期間（年）
-              </label>
-              <input
-                type="number"
-                value={plan.years}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // 先頭の0を削除（020 -> 20）
-                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
-                  updatePlan("years", Number(normalizedValue));
-                }}
-                className={styles.input}
-                min={INPUT_CONSTRAINTS.MIN_YEARS}
-                max={INPUT_CONSTRAINTS.MAX_YEARS}
-              />
-            </div>
-
-            <div>
-              <label className={styles.label}>
-                想定年利回り（%）
-              </label>
-              <input
-                type="number"
-                value={plan.annualRate}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // 先頭の0を削除（05.0 -> 5.0）
-                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
-                  updatePlan("annualRate", Number(normalizedValue));
-                }}
-                className={styles.input}
-                min={INPUT_CONSTRAINTS.MIN_ANNUAL_RATE}
-                max={INPUT_CONSTRAINTS.MAX_ANNUAL_RATE}
-                step="0.1"
-              />
-            </div>
-
-            <div>
-              <label className={styles.label}>
-                初回投資額（万円）
-              </label>
-              <input
-                type="number"
-                value={(plan.initialAmount ?? 0) / 10000}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // 先頭の0を削除（0100 -> 100）
-                  const normalizedValue = value.replace(/^0+(?=\d)/, '');
-                  updatePlan("initialAmount", normalizedValue === '' ? 0 : Number(normalizedValue) * 10000);
-                }}
-                className={styles.input}
-                min="0"
-                placeholder="0"
-                step="1"
-              />
-            </div>
-
-            <button
-              onClick={handleCalculate}
-              className={styles.button}
-            >
-              計算する
-            </button>
-          </div>
-
-          {/* エラー表示 */}
-          {errors.length > 0 && (
-            <div className={styles.errorContainer}>
-              <p className={styles.errorTitle}>入力エラー:</p>
-              <ul className={styles.errorList}>
-                {errors.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+              <div className={styles.reverseHeader}>
+                <h2 className={styles.cardTitle}>目標から逆算する</h2>
+                <button
+                  className={styles.toggleButton}
+                  onClick={() => setReverseMode((prev) => !prev)}
+                >
+                  {reverseMode ? '通常モードに戻る' : '逆算モードを開く'}
+                </button>
+              </div>
+              {reverseMode && (
+                <ReverseCalculator
+                  defaultParams={{
+                    currentAge: plan.currentAge ?? 30,
+                    targetAge: (plan.currentAge ?? 30) + 20,
+                    targetAmount: 20000000,
+                    annualRate: plan.annualRate,
+                    initialAmount: plan.initialAmount ?? 0,
+                  }}
+                  onApply={handleApplyReverseAmount}
+                />
+              )}
             </div>
           </div>
 
           {/* 右カラム: 結果表示 */}
           {result && (
             <div className={styles.column}>
-              {/* 結果表示 */}
-              <div className={styles.card}>
-                <h2 className={styles.cardTitle}>シミュレーション結果</h2>
+              <ResultDisplay plan={plan} result={result} />
 
-                <div className={styles.formGroup}>
-                  <div className={styles.resultGrid}>
-                    <div className={clsx(styles.resultCard, styles.resultCardGreen)}>
-                      <p className={styles.resultLabel}>総資産額</p>
-                      <p className={clsx(styles.resultValue, styles.resultValueGreen)}>
-                        {(result.totalAssets / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
-                      </p>
-                    </div>
-
-                    <div className={clsx(styles.resultCard, styles.resultCardBlue)}>
-                      <p className={styles.resultLabel}>元本合計</p>
-                      <p className={clsx(styles.resultValue, styles.resultValueBlue)}>
-                        {(result.totalPrincipal / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
-                      </p>
-                    </div>
-
-                    <div className={clsx(styles.resultCard, styles.resultCardPurple)}>
-                      <p className={styles.resultLabel}>運用益</p>
-                      <p className={clsx(styles.resultValue, styles.resultValuePurple)}>
-                        {(result.totalProfit / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* NISA枠情報 */}
-                  <div className={clsx(styles.nisaInfo, {
-                    [styles.nisaInfoError]: result.isOverNisaLimit
-                  })}>
-                    <p className={styles.nisaTitle}>NISA投資枠の活用状況</p>
-                    <p className={styles.nisaText}>
-                      年間投資額: <span className={styles.nisaValue}>{(result.annualInvestment / 10000).toLocaleString('ja-JP', { maximumFractionDigits: 1 })}万円</span>
-                    </p>
-                    <p className={styles.nisaText}>
-                      活用率: <span className={styles.nisaValue}>{(result.nisaUtilizationRate * 100).toFixed(1)}%</span>
-                    </p>
-                    {result.isOverNisaLimit && (
-                      <p className={styles.nisaWarning}>
-                        ⚠️ 年間投資額がNISA枠（120万円）を超過しています
-                      </p>
-                    )}
-                  </div>
+              {plan.currentAge !== undefined && (
+                <div className={styles.card}>
+                  <Milestone
+                    milestones={generateMilestones(plan.currentAge, plan.years, result.chartData)}
+                  />
                 </div>
-              </div>
+              )}
 
               {/* グラフ表示 */}
               <div className={styles.card}>
-                <InvestmentChart chartData={result.chartData} />
+                <InvestmentChart chartData={result.chartData} currentAge={plan.currentAge} />
               </div>
             </div>
           )}
