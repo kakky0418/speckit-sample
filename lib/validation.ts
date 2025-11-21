@@ -82,3 +82,25 @@ export function validateAnnualRate(rate: number): { isValid: boolean; errorMessa
 
   return { isValid: true };
 }
+
+export function validateAge(age: number | undefined): ValidationResult {
+  if (age === undefined) {
+    return { isValid: true, errors: [] };
+  }
+
+  if (!Number.isInteger(age)) {
+    return {
+      isValid: false,
+      errors: ['整数で入力してください'],
+    };
+  }
+
+  if (age < 1 || age > 120) {
+    return {
+      isValid: false,
+      errors: ['1 歳以上 120 歳以下で入力してください'],
+    };
+  }
+
+  return { isValid: true, errors: [] };
+}
