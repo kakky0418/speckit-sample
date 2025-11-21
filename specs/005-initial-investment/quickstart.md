@@ -1,4 +1,4 @@
-# Quickstart: 初回投資額設定機能
+# クイックスタート: 初回投資額設定機能
 
 **Feature**: 初回投資額設定機能
 **Branch**: `005-initial-investment`

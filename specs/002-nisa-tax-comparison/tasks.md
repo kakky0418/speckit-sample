@@ -1,9 +1,9 @@
-# Tasks: NISA vs 特定口座 税金比較機能
+# タスクリスト: NISA vs 特定口座 税金比較機能
 
-**Feature Branch**: `001-nisa-simulator` (002 機能を含む)
-**Created**: 2025-11-18
-**Status**: ✅ 完了
-**Technology Stack**: Next.js 15+, React 19, TypeScript, CSS Modules, Chart.js, bun
+**ブランチ**: `001-nisa-simulator` (002 機能を含む)
+**作成日**: 2025-11-18
+**ステータス**: ✅ 完了
+**技術スタック**: Next.js 15+, React 19, TypeScript, CSS Modules, Chart.js, bun
 
 ---
 
@@ -178,5 +178,5 @@
 
 ---
 
-**Status**: ✅ **All tasks completed** (2025-11-19)
+**ステータス**: ✅ **All tasks completed** (2025-11-19)
 **Last Updated**: 2025-11-19

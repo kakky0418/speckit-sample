@@ -1,4 +1,4 @@
-# Research & Technology Decisions: NISA積立シミュレーター
+# リサーチ・技術方針: NISA積立シミュレーター
 
 **Date**: 2025-11-18
 **Feature**: NISA積立シミュレーター

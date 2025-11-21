@@ -1,9 +1,9 @@
-# Feature Specification: CSS Modules リファクタリング
+# 機能仕様: CSS Modules リファクタリング
 
-**Feature Branch**: `003-refactor-css-modules`
-**Created**: 2025-11-18
-**Status**: Draft
-**Input**: User description: "001-nisa-simulator を CSS Modules 構造（tsx と CSS の 1対1 対応）にリファクタリング"
+**ブランチ**: `003-refactor-css-modules`
+**作成日**: 2025-11-18
+**ステータス**: Draft
+**入力**: User description: "001-nisa-simulator を CSS Modules 構造（tsx と CSS の 1対1 対応）にリファクタリング"
 
 ## Intent（インテント）
 
@@ -26,15 +26,15 @@
 ### 成功した未来の状態
 開発者が「001 のコンポーネントを修正する際に、対応する .module.css ファイルを開くだけでスタイルを変更できる」ようになった。Tailwind の長い className が消え、tsx ファイルが読みやすくなり、002 との統一感が生まれた。新しい開発者がプロジェクトに参加しても、一貫したスタイル管理手法により、迷わずに開発を進められるようになった。
 
-## User Scenarios & Testing *(mandatory)*
+## ユーザーストーリーとテスト（必須）
 
 ### User Story 1 - 既存機能の動作保証 (Priority: P1)
 
 リファクタリング後も、ユーザーから見た UI と機能は完全に同じ動作をします。見た目の変更は一切ありません。
 
-**Why this priority**: リファクタリングの最優先事項は「既存機能を壊さない」ことです。ユーザー体験を維持しながら、内部構造を改善します。
+**この優先度の理由**: リファクタリングの最優先事項は「既存機能を壊さない」ことです。ユーザー体験を維持しながら、内部構造を改善します。
 
-**Independent Test**: 既存の E2E テストをすべて実行し、リファクタリング前後で結果が同じであることを確認できます。
+**独立検証方法**: 既存の E2E テストをすべて実行し、リファクタリング前後で結果が同じであることを確認できます。
 
 **Acceptance Scenarios**:
 
@@ -48,9 +48,9 @@
 
 すべての tsx ファイルに対応する .module.css ファイルが存在し、スタイルが明確に分離されています。開発者はスタイル変更時に対応する CSS ファイルを開くだけで済みます。
 
-**Why this priority**: これがリファクタリングの中核的な目標であり、保守性と一貫性を確保するために必須です。
+**この優先度の理由**: これがリファクタリングの中核的な目標であり、保守性と一貫性を確保するために必須です。
 
-**Independent Test**: ファイル構造を確認し、すべての tsx ファイルに対応する .module.css ファイルが存在し、Tailwind のインラインクラスが削除されていることを確認できます。
+**独立検証方法**: ファイル構造を確認し、すべての tsx ファイルに対応する .module.css ファイルが存在し、Tailwind のインラインクラスが削除されていることを確認できます。
 
 **Acceptance Scenarios**:
 
@@ -64,9 +64,9 @@
 
 Tailwind CSS の依存関係を削除し、CSS Modules のみでスタイリングを行います。バンドルサイズの削減と、依存関係の単純化を実現します。
 
-**Why this priority**: Tailwind CSS を使用しなくなるため、不要な依存関係を削除することでプロジェクトがシンプルになります。
+**この優先度の理由**: Tailwind CSS を使用しなくなるため、不要な依存関係を削除することでプロジェクトがシンプルになります。
 
-**Independent Test**: `package.json` から Tailwind 関連のパッケージが削除され、`tailwind.config.ts` が削除されていることを確認できます。また、ビルドが成功することを確認できます。
+**独立検証方法**: `package.json` から Tailwind 関連のパッケージが削除され、`tailwind.config.ts` が削除されていることを確認できます。また、ビルドが成功することを確認できます。
 
 **Acceptance Scenarios**:
 
@@ -76,16 +76,16 @@ Tailwind CSS の依存関係を削除し、CSS Modules のみでスタイリン�
 
 ---
 
-### Edge Cases
+### エッジケース
 
 - リファクタリング中に一部のスタイルが抜け落ちないよう、ビジュアルリグレッションテストを実施する
 - ダークモード対応（`dark:` プレフィックス）を CSS Modules で再現する
 - レスポンシブデザイン（`sm:`, `md:`, `lg:` など）を CSS Modules のメディアクエリで再現する
 - 動的なスタイル（条件付き className）を CSS Modules で適切に処理する
 
-## Requirements *(mandatory)*
+## 要件（必須）
 
-### Functional Requirements
+### 機能要件
 
 - **FR-001**: すべての tsx ファイルに対応する .module.css ファイルが 1対1 で存在しなければならない
 - **FR-002**: tsx ファイル内の Tailwind CSS ユーティリティクラスをすべて CSS Modules のクラス名に置き換えなければならない
@@ -104,9 +104,9 @@ Tailwind CSS の依存関係を削除し、CSS Modules のみでスタイリン�
 - **module.css ファイル**: tsx ファイルに 1対1 対応するスタイルファイル
 - **CSS Modules**: ローカルスコープを持つ CSS の仕組み
 
-## Success Criteria *(mandatory)*
+## 成功基準（必須）
 
-### Measurable Outcomes
+### 測定可能なアウトカム
 
 - **SC-001**: すべての tsx ファイル（5ファイル）に対応する .module.css ファイルが存在する
 - **SC-002**: tsx ファイル内に Tailwind のユーティリティクラス（`className="bg-blue-500"` など）が 0個 になる
@@ -114,7 +114,7 @@ Tailwind CSS の依存関係を削除し、CSS Modules のみでスタイリン�
 - **SC-004**: すべての既存テスト（ユニットテスト・E2E テスト）が成功する（成功率 100%）
 - **SC-005**: バンドルサイズが削減される（Tailwind CSS の削除により約 50KB 削減が期待される）
 
-## Assumptions *(optional)*
+## 前提条件（任意）
 
 ### 前提条件
 

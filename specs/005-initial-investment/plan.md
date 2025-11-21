@@ -1,15 +1,15 @@
-# Implementation Plan: 初回投資額設定機能
+# 実装計画: 初回投資額設定機能
 
 **Branch**: `005-initial-investment` | **Date**: 2025-11-19 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/005-initial-investment/spec.md`
+**入力**: 機能仕様: `/specs/005-initial-investment/spec.md`
 
-## Summary
+## サマリー
 
 NISA シミュレーターに初回投資額（一括投資額）の入力機能を追加し、シミュレーション計算に反映させる。既存の InvestmentPlan 型に `initialAmount` フィールドを追加し、計算ロジックを拡張する。UI には新しい入力フィールドを追加し、既存のフォームと統合する。
 
 **技術的アプローチ**: 既存の型定義とコンポーネント構造を活用し、最小限の変更で機能を追加する。データモデルの拡張（Phase 0）→ UI 追加（Phase 1）→ 計算ロジック更新（Phase 2）の順で段階的に実装する。
 
-## Technical Context
+## 技術コンテキスト
 
 **Language/Version**: TypeScript 5.x + React 19 + Next.js 15.1.3
 **Primary Dependencies**: React, Next.js, Chart.js, react-chartjs-2
@@ -24,9 +24,9 @@ NISA シミュレーターに初回投資額（一括投資額）の入力機能
 - バックエンド・データベース不要（フロントエンドのみ）
 **Scale/Scope**: 単一機能追加（既存シミュレーターへの拡張）
 
-## Constitution Check
+## 憲法チェック
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+*ゲート: Phase 0 リサーチ前に確認。Phase 1 設計後に再確認。*
 
 ### ✅ I. Specification-First
 - [x] spec.md が存在し、ユーザーストーリー（P1, P2, P3）が定義されている
@@ -64,9 +64,9 @@ NISA シミュレーターに初回投資額（一括投資額）の入力機能
 
 **Overall Gate Status**: ✅ **PASS** - Phase 0 研究に進む準備完了
 
-## Project Structure
+## プロジェクト構造
 
-### Documentation (this feature)
+### ドキュメント（本機能）
 
 ```text
 specs/005-initial-investment/
@@ -109,7 +109,7 @@ __tests__/
 
 **Structure Decision**: 既存の Next.js App Router 構造を維持し、Web アプリケーションとして実装する。バックエンド・API は不要（フロントエンドのみで完結）。
 
-## Complexity Tracking
+## 複雑性トラッキング
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 

@@ -1,9 +1,9 @@
-# Tasks: CSS Modules リファクタリング
+# タスクリスト: CSS Modules リファクタリング
 
-**Feature Branch**: `003-refactor-css-modules`
-**Created**: 2025-11-18
-**Status**: 📋 計画済み（実装待ち）
-**Technology Stack**: Next.js 15+, React 19, TypeScript, CSS Modules
+**ブランチ**: `003-refactor-css-modules`
+**作成日**: 2025-11-18
+**ステータス**: 📋 計画済み（実装待ち）
+**技術スタック**: Next.js 15+, React 19, TypeScript, CSS Modules
 
 ---
 
@@ -182,5 +182,5 @@
 
 ---
 
-**Status**: 📋 **計画済み**（実装待ち）
+**ステータス**: 📋 **計画済み**（実装待ち）
 **Last Updated**: 2025-11-19

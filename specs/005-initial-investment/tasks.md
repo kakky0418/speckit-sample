@@ -1,9 +1,9 @@
-# Tasks: 初回投資額設定機能
+# タスクリスト: 初回投資額設定機能
 
-**Feature Branch**: `005-initial-investment`
-**Created**: 2025-11-19
-**Status**: 準備完了
-**Technology Stack**: TypeScript 5.x + React 19 + Next.js 15.1.3, Chart.js, CSS Modules
+**ブランチ**: `005-initial-investment`
+**作成日**: 2025-11-19
+**ステータス**: 準備完了
+**技術スタック**: TypeScript 5.x + React 19 + Next.js 15.1.3, Chart.js, CSS Modules
 
 ---
 
@@ -383,5 +383,5 @@ describe('calculateSimulation with initialAmount', () => {
 3. ⏳ User Story 1 完了後に MVP リリース検討
 4. ⏳ User Story 2 は必要に応じて実装
 
-**Status**: ✅ **タスク生成完了** - 実装準備完了
+**ステータス**: ✅ **タスク生成完了** - 実装準備完了
 **Last Updated**: 2025-11-19
