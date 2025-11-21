@@ -37,4 +37,8 @@ yarn-error.log*
 next-env.d.ts
 
 # Claude Code local settings
-.claude/settings.local.json
+settings.local.json
+
+# AI-DLC: 個人作業履歴（詳細なプロンプト履歴）
+prompt_histories.md
+prompt_histories/
