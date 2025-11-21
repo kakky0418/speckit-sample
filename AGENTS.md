@@ -1,1 +1,1 @@
-始めに aidocs/instructions/general.md と aidocs/instructions/personal/ 配下の全てのファイルを確認してください。
+始めに aidocs/introduction.md と aidocs/personals/introduction.md を確認してください。

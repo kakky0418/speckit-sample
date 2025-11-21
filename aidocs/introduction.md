@@ -99,8 +99,6 @@ prompt/
 新規セッション開始時に AI に以下を指示：
 
 ```markdown
-今日は specs/XXX-feature を構築します。
-
 ドキュメントの保存先：
 - 仕様・計画 → specs/XXX/spec.md, plan.md, tasks.md
 - プロンプト履歴 → specs/XXX/prompt/
