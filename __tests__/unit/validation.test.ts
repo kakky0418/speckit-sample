@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'bun:test';
-import { validateInvestmentPlan } from '@/lib/validation';
+import { validateInvestmentPlan, validateAge } from '@/lib/validation';
 import type { InvestmentPlan } from '@/lib/types';
 
 describe('Validation', () => {
@@ -149,6 +149,39 @@ describe('Validation', () => {
 
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
+    });
+  });
+
+  describe('validateAge', () => {
+    test('未入力(undefined)の場合はバリデーションが成功すること', () => {
+      const result = validateAge(undefined);
+
+      expect(result.isValid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
+
+    test('1〜120 の整数はバリデーションが成功すること', () => {
+      const result = validateAge(35);
+
+      expect(result.isValid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
+
+    test('小数の場合は「整数で入力してください」で失敗すること', () => {
+      const result = validateAge(35.5);
+
+      expect(result.isValid).toBe(false);
+      expect(result.errors).toContain('整数で入力してください');
+    });
+
+    test('1 未満または 120 より大きい場合は範囲外エラーになること', () => {
+      const underResult = validateAge(0);
+      const overResult = validateAge(121);
+
+      expect(underResult.isValid).toBe(false);
+      expect(underResult.errors).toContain('1 歳以上 120 歳以下で入力してください');
+      expect(overResult.isValid).toBe(false);
+      expect(overResult.errors).toContain('1 歳以上 120 歳以下で入力してください');
     });
   });
 });
