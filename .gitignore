@@ -37,12 +37,8 @@ yarn-error.log*
 next-env.d.ts
 
 # Claude Code local settings
-.claude/settings.local.json
+settings.local.json
 
 # AI-DLC: 個人作業履歴（詳細なプロンプト履歴）
-# 単一ファイル形式
-specs/*/prompt/prompt_histories.md
-**/prompt/prompt_histories.md
-# ディレクトリ分割形式（5セッション以上の場合）
-specs/*/prompt/prompt_histories/
-**/prompt/prompt_histories/
+prompt_histories.md
+prompt_histories/
