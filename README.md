@@ -190,6 +190,7 @@ bash .specify/scripts/bash/create-new-feature.sh "新機能の説明"
 
 ---
 
+
 ## ドキュメント
 
 - [Constitution](.specify/memory/constitution.md) - プロジェクト開発原則
