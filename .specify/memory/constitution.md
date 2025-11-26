@@ -1,13 +1,16 @@
 <!--
 Sync Impact Report:
-Version Change: 1.1.0 → 1.2.0
+Version Change: 1.2.0 → 1.3.0
 Modified Principles: N/A
 Added Sections:
-  - Development Workflow に「作業中の改善・修正（In-Flight Changes）」セクションを追加
+  - Core Principles に「VI. DRY Principle」セクションを追加
+  - Core Principles に「VII. Readability First」セクションを追加
 Removed Sections: N/A
 Templates Status:
-  ✅ All templates - No changes required (new workflow guideline only)
+  ✅ All templates - No changes required (new principle guidelines only)
 Follow-up TODOs: None
+Previous Changes (1.1.0 → 1.2.0):
+  - Development Workflow に「作業中の改善・修正（In-Flight Changes）」セクションを追加
 Previous Changes (1.0.0 → 1.1.0):
   - Intent（インテント）を AI-DLC Requirements のインセプションフェーズ成果物に追加（必須化）
 -->
@@ -62,6 +65,26 @@ TDD は非交渉的な必須プラクティス：
 - 過度な抽象化や将来の拡張性のための設計は避ける
 
 **理由**: AI-DLC の高速イテレーションを最大化するため、不要な複雑さを排除する。必要になった時点で追加する方が効率的。
+
+### VI. DRY Principle
+
+DRY（Don't Repeat Yourself）原則を遵守し、コードの重複を排除する：
+- 同じ処理やロジックを複数箇所に実装しない
+- 重複を発見した場合は共通化・抽象化を検討
+- 定数、ユーティリティ関数、共通コンポーネントを適切に活用
+- コピー＆ペーストによる実装は避け、再利用可能な形に設計
+
+**理由**: 重複コードは保守性を著しく低下させる。1 箇所の修正が必要な場合、すべての重複箇所を特定・修正する必要があり、バグの温床となる。単一の信頼できる情報源（Single Source of Truth）を維持することで、変更の影響範囲を限定し、一貫性を保証する。
+
+### VII. Readability First
+
+人間が読みやすく理解しやすいコードを最優先とする：
+- 変数名・関数名は意図が明確に伝わる命名を選択
+- 複雑なロジックは適切に分割し、各部分の責務を明確化
+- コードの構造で意図を表現し、過度なコメントに頼らない
+- 「賢い」コードより「明快な」コードを選択
+
+**理由**: コードは書く時間より読む時間の方が圧倒的に長い。AI-DLC において AI がコードを生成する場合でも、人間がレビュー・理解・保守する必要がある。可読性の高いコードは、チームの生産性を向上させ、バグの発見を容易にし、オンボーディングを加速する。
 
 ## AI-DLC Requirements
 
@@ -152,4 +175,4 @@ TDD は非交渉的な必須プラクティス：
 - 複雑さは plan.md の「Complexity Tracking」セクションで正当化必須
 - ランタイム開発ガイダンスは CLAUDE.md を参照
 
-**Version**: 1.2.0 | **Ratified**: 2025-11-18 | **Last Amended**: 2025-11-19
+**Version**: 1.3.0 | **Ratified**: 2025-11-18 | **Last Amended**: 2025-11-27
